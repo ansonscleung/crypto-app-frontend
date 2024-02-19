@@ -20,7 +20,9 @@ function App() {
       {data ? (
         <div>
           <p>Bitcoin</p>
-          <p>${data["BTC"]}</p>
+          <p>${data["BTC"]["price"]}</p>
+          <p>Volume: {data["BTC"]["volume"]}</p>
+          <p>Change: {data["BTC"]["change"]}</p>
         </div>
       ) : (
         <p>Loading...</p>
