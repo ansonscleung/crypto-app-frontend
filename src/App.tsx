@@ -3,12 +3,15 @@ import { QuoteProps, QuoteCard } from "./components/quoteCard";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
+// Default refresh rate is 60s
+const QUOTES_REFRESH_RATE =
+  parseInt(process.env.QUOTES_REFRESH_RATE as string) | 60;
 const API_DOMAIN = process.env.API_DOMAIN || "http://localhost:5000";
 
 function App() {
   const [data, setData] = useState<Array<QuoteProps> | null>(null);
 
-  useEffect(() => {
+  const getQuotes = () => {
     fetch(`${API_DOMAIN}/api/quotes`, {
       headers: {
         "Content-Type": "application/json",
@@ -17,6 +20,11 @@ function App() {
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    const id = setInterval(getQuotes, 60000);
+    return () => clearInterval(id);
   }, []);
 
   return (
