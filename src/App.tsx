@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { QuoteProps, QuoteCard } from "./components/quoteCard";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 const API_DOMAIN = process.env.API_DOMAIN || "http://localhost:5000";
 
 function App() {
-  type QuoteProps = {
-    name: String;
-    price: String;
-    volume: Number;
-    change: Number;
-  };
-
   const [data, setData] = useState<Array<QuoteProps> | null>(null);
 
   useEffect(() => {
@@ -22,23 +19,22 @@ function App() {
       .catch((error) => console.error("Error:", error));
   }, []);
 
-  const Quote = ({ name, price, volume, change }: QuoteProps) => {
-    return (
-      <div>
-        <p>{name}</p>
-        <p>${price}</p>
-        <p>Volume: {volume.toString()}</p>
-        <p>Change: {change.toString()}</p>
-      </div>
-    );
-  };
-
   return (
-    <div>
+    <div className="p-4">
+      <h1 className="pb-4">Cryptocurrency Realtime Price</h1>
       {data ? (
-        data.map(({ name, price, volume, change }: QuoteProps) => (
-          <Quote name={name} price={price} volume={volume} change={change} />
-        ))
+        <Row xs={1} md={2} lg={3} xl={4} className="g-3">
+          {data.map(({ name, price, volume, change }: QuoteProps, idx) => (
+            <Col key={idx}>
+              <QuoteCard
+                name={name}
+                price={price}
+                volume={volume}
+                change={change}
+              />
+            </Col>
+          ))}
+        </Row>
       ) : (
         <p>Loading...</p>
       )}
