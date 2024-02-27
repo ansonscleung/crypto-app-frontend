@@ -23,7 +23,8 @@ function App() {
   };
 
   useEffect(() => {
-    const id = setInterval(getQuotes, 60000);
+    getQuotes();
+    const id = setInterval(getQuotes, QUOTES_REFRESH_RATE * 1000);
     return () => clearInterval(id);
   }, []);
 

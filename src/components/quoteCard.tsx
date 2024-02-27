@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 
 export type QuoteProps = {
   name: string;
-  price: string;
+  price: number;
   volume: number;
   change: number;
 };
